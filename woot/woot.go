@@ -7,14 +7,20 @@ type WString struct {
 
 // WCharacter ...
 type WCharacter struct {
-	ID         string      // Identifier of the character
-	Visible    bool        // Is the character visible
-	Alphabet   string      // Alphabetical value of the effect character
+	ID       string // Identifier of the character
+	Visible  bool   // Is the character visible
+	Alphabet string // Alphabetical value of the effect character
+
+	// TODO: Change Previous & Next WCharacter to store ID
+
 	WCPrevious *WCharacter // Identifier of the previous WCharacter
 	WCNext     *WCharacter // Identifier of the next WCharacter
 }
 
 var (
+	SiteID     = 0 // TODO: Convert To String & Tie To IP Address
+	LocalClock = 0
+
 	WCharacterStart = WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
 	WCharacterEnd   = WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
 )
@@ -112,17 +118,43 @@ func Value(wstring WString) string {
 }
 
 // IthVisible ...
-func IthVisible(wstring WString, position int) string {
+func IthVisible(wstring WString, position int) WCharacter {
 	count := 0
 
 	for _, wcharacter := range wstring.Sequence {
 		if wcharacter.Visible {
 			if count == position {
-				return wcharacter.Alphabet
+				return wcharacter
 			}
 			count++
 		}
 	}
 
-	return ""
+	return WCharacter{}
+}
+
+// GenerateInsert ...
+func (wstring *WString) GenerateInsert(position int, alphabet string) {
+	LocalClock++
+
+	WCharacterPrevious := IthVisible(*wstring, position)
+	WCharacterNext := IthVisible(*wstring, position+1)
+
+	wcharacter := WCharacter{
+		ID:         string(SiteID) + string(LocalClock),
+		Visible:    true,
+		Alphabet:   alphabet,
+		WCPrevious: &WCharacterPrevious,
+		WCNext:     &WCharacterNext,
+	}
+
+	// IntergrateInsert(wcharacter, WCharacterPrevious, WCharacterNext)
+	// Broadcast
+}
+
+// GenerateDelete ...
+func (wstring *WString) GenerateDelete(position int) {
+	wcharacter := IthVisible(*wstring, position)
+	// IntergrateDelete(wcharacter)
+	// Broadcast
 }
