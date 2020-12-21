@@ -21,10 +21,14 @@ var (
 	SiteID     = 0 // TODO: Convert To String & Tie To IP Address
 	LocalClock = 0
 
+	// TODO: Initialize wstring to contain WCharacterStart & WCharacterEnd
+	// TODO: Update WCharacterStart & WCharacterEnd for every wstring operation
+
 	WCharacterStart = WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
 	WCharacterEnd   = WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
 )
 
+// Initialize ...
 func Initialize() WString {
 	return WString{}
 }
@@ -158,3 +162,22 @@ func (wstring *WString) GenerateDelete(position int) {
 	// IntergrateDelete(wcharacter)
 	// Broadcast
 }
+
+// Operation ...
+type Operation struct {
+	Type      string
+	Character WCharacter
+}
+
+// IsExecutable ...
+func (operation *Operation) IsExecutable(wstring WString) bool {
+	character := operation.Character
+
+	if operation.Type == "delete" {
+		return wstring.Contains(character)
+	}
+
+	return wstring.Contains(*character.WCPrevious) && wstring.Contains(*character.WCNext)
+}
+
+// Pool is a local var slice of type []Operation{}
