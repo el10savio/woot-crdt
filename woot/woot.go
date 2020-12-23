@@ -28,6 +28,8 @@ var (
 	WCharacterEnd   = WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
 )
 
+// Pool is a local var slice of type []Operation{}
+
 // Initialize ...
 func Initialize() WString {
 	return WString{}
@@ -159,7 +161,7 @@ func (wstring *WString) GenerateInsert(position int, alphabet string) {
 // GenerateDelete ...
 func (wstring *WString) GenerateDelete(position int) {
 	wcharacter := IthVisible(*wstring, position)
-	// IntergrateDelete(wcharacter)
+	// wstring.IntergrateDelete(wcharacter)
 	// Broadcast
 }
 
@@ -180,4 +182,9 @@ func (operation *Operation) IsExecutable(wstring WString) bool {
 	return wstring.Contains(*character.WCPrevious) && wstring.Contains(*character.WCNext)
 }
 
-// Pool is a local var slice of type []Operation{}
+// IntergrateDelete ...
+func (wstring *WString) IntergrateDelete(wcharacter WCharacter) {
+	// TODO: Check if position == -1
+	position := wstring.Position(wcharacter.ID)
+	wstring.Sequence[position].Visible = false
+}
