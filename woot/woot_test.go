@@ -379,10 +379,10 @@ func Test_IthVisible(t *testing.T) {
 		},
 	}
 
-	expectedString := "a"
-	actualString := IthVisible(wstring, 0)
+	expectedWCharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
+	actualWCharacter := IthVisible(wstring, 0)
 
-	assert.Equal(t, expectedString, actualString)
+	assert.Equal(t, expectedWCharacter, actualWCharacter)
 
 	wstring = Clear()
 }
@@ -396,10 +396,10 @@ func Test_IthVisible_NoVisibleWCharacters(t *testing.T) {
 		},
 	}
 
-	expectedString := ""
-	actualString := IthVisible(wstring, 0)
+	expectedWCharacter := WCharacter{}
+	actualWCharacter := IthVisible(wstring, 0)
 
-	assert.Equal(t, expectedString, actualString)
+	assert.Equal(t, expectedWCharacter, actualWCharacter)
 
 	wstring = Clear()
 }
