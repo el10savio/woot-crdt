@@ -130,9 +130,6 @@ func Test_Postion_WCharacterNotPresent(t *testing.T) {
 	wstring = Clear()
 }
 
-// TODO: Test_LocalInsert_Begining
-// TODO: Test_LocalInsert_Ending
-
 func Test_LocalInsert(t *testing.T) {
 	wstring = Initialize()
 
@@ -149,6 +146,38 @@ func Test_LocalInsert(t *testing.T) {
 
 	assert.Equal(t, expectedWString, actualWString)
 	assert.Nil(t, actualErr)
+
+	wstring = Clear()
+}
+
+func Test_LocalInsert_Begining(t *testing.T) {
+	wstring = Initialize()
+
+	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
+
+	expectedWString := &wstring
+	expectedErr := ErrPositionOutOfBounds
+
+	actualWString, actualErr := wstring.LocalInsert(wcharacter, 0)
+
+	assert.Equal(t, expectedWString, actualWString)
+	assert.Equal(t, expectedErr, actualErr)
+
+	wstring = Clear()
+}
+
+func Test_LocalInsert_Ending(t *testing.T) {
+	wstring = Initialize()
+
+	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
+
+	expectedWString := &wstring
+	expectedErr := ErrPositionOutOfBounds
+
+	actualWString, actualErr := wstring.LocalInsert(wcharacter, 2)
+
+	assert.Equal(t, expectedWString, actualWString)
+	assert.Equal(t, expectedErr, actualErr)
 
 	wstring = Clear()
 }

@@ -68,9 +68,8 @@ func (wstring *WString) Position(wcharacterID string) (int, error) {
 }
 
 // LocalInsert ...
-// TODO: Collate errors to vars list
 func (wstring *WString) LocalInsert(wcharacter WCharacter, position int) (*WString, error) {
-	if position < 0 || position >= wstring.Length() {
+	if position <= 0 || position >= wstring.Length() {
 		return wstring, ErrPositionOutOfBounds
 	}
 

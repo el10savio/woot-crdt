@@ -9,9 +9,12 @@ type Operation struct {
 }
 
 var (
-	SiteID     = 0 // TODO: Convert To String & Tie To IP Address
+	// TODO: Convert To String & Tie To IP Address
+	SiteID     = 0
 	LocalClock = 0
 )
+
+// TODO: Bubble up errors
 
 // IsExecutable ...
 func (operation *Operation) IsExecutable(wstring WString) bool {
@@ -50,6 +53,8 @@ func (wstring *WString) GenerateDelete(position int) {
 	wstring.IntegrateDelete(wcharacter)
 	// Broadcast
 }
+
+// TODO: Unit Tests
 
 // IntegrateDelete ...
 func (wstring *WString) IntegrateDelete(wcharacter WCharacter) {
