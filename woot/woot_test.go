@@ -1,7 +1,6 @@
 package woot
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -57,7 +56,7 @@ func Test_ElementAt_EmptyWString(t *testing.T) {
 	wstring = WString{Sequence: []WCharacter{}}
 
 	expectedWCharacter := WCharacter{}
-	expectedErr := errors.New("position out of bounds")
+	expectedErr := ErrPositionOutOfBounds
 
 	actualWCharacter, actualErr := wstring.ElementAt(0)
 
@@ -71,7 +70,7 @@ func Test_ElementAt_PositionOutOfBounds(t *testing.T) {
 	wstring = Initialize()
 
 	expectedWCharacter := WCharacter{}
-	expectedErr := errors.New("position out of bounds")
+	expectedErr := ErrPositionOutOfBounds
 
 	actualWCharacter, actualErr := wstring.ElementAt(2)
 
@@ -109,7 +108,7 @@ func Test_Postion_EmptyWCharacterID(t *testing.T) {
 	wstring = Initialize()
 
 	expectedPosition := -1
-	expectedErr := errors.New("empty wcharacter ID provided")
+	expectedErr := ErrEmptyWCharacter
 
 	actualPosition, actualErr := wstring.Position("")
 
@@ -160,7 +159,7 @@ func Test_LocalInsert_PositionOutOfBounds(t *testing.T) {
 	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
 
 	expectedWString := &wstring
-	expectedErr := errors.New("position out of bounds")
+	expectedErr := ErrPositionOutOfBounds
 
 	actualWString, actualErr := wstring.LocalInsert(wcharacter, 3)
 
@@ -176,7 +175,7 @@ func Test_LocalInsert_EmptyWCharacter(t *testing.T) {
 	wcharacter := WCharacter{ID: "", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
 
 	expectedWString := &wstring
-	expectedErr := errors.New("empty wcharacter ID provided")
+	expectedErr := ErrEmptyWCharacter
 	actualWString, actualErr := wstring.LocalInsert(wcharacter, 1)
 
 	assert.Equal(t, expectedWString, actualWString)
@@ -231,7 +230,7 @@ func Test_Subseq_WCharacterNotPresent(t *testing.T) {
 		WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: "", WCNext: ""},
 		WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 	}
-	expectedErr := errors.New("subsequence bound(s) not present")
+	expectedErr := ErrBoundsNotPresent
 
 	actualSubseq, actualErr := wstring.Subseq(wcharacterStart, wcharacterEnd)
 

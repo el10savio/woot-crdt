@@ -22,6 +22,12 @@ var (
 
 	// WCharacterEnd ...
 	WCharacterEnd = WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "start", WCNext: ""}
+
+	// TODO: Move errors to its own file
+
+	ErrPositionOutOfBounds = errors.New("position out of bounds")
+	ErrEmptyWCharacter     = errors.New("empty wcharacter ID provided")
+	ErrBoundsNotPresent    = errors.New("subsequence bound(s) not present")
 )
 
 // Pool is a local var slice of type []Operation{}
@@ -39,8 +45,7 @@ func (wstring *WString) Length() int {
 // ElementAt ...
 func (wstring *WString) ElementAt(position int) (WCharacter, error) {
 	if position < 0 || position >= wstring.Length() {
-		// TODO: Collate errors to vars list
-		return WCharacter{}, errors.New("position out of bounds")
+		return WCharacter{}, ErrPositionOutOfBounds
 	}
 	return wstring.Sequence[position], nil
 }
@@ -49,8 +54,7 @@ func (wstring *WString) ElementAt(position int) (WCharacter, error) {
 // Returns wstring natural number
 func (wstring *WString) Position(wcharacterID string) (int, error) {
 	if wcharacterID == "" {
-		// TODO: Collate errors to vars list
-		return -1, errors.New("empty wcharacter ID provided")
+		return -1, ErrEmptyWCharacter
 	}
 
 	for position, _wcharacter := range wstring.Sequence {
@@ -67,11 +71,11 @@ func (wstring *WString) Position(wcharacterID string) (int, error) {
 // TODO: Collate errors to vars list
 func (wstring *WString) LocalInsert(wcharacter WCharacter, position int) (*WString, error) {
 	if position < 0 || position >= wstring.Length() {
-		return wstring, errors.New("position out of bounds")
+		return wstring, ErrPositionOutOfBounds
 	}
 
 	if wcharacter.ID == "" {
-		return wstring, errors.New("empty wcharacter ID provided")
+		return wstring, ErrEmptyWCharacter
 	}
 
 	wstring.Sequence = append(wstring.Sequence[:position],
@@ -94,7 +98,7 @@ func (wstring *WString) Subseq(wcharacterStart, wcharacterEnd WCharacter) ([]WCh
 	endPosition, _ := wstring.Position(wcharacterEnd.ID)
 
 	if startPosition == -1 || endPosition == -1 {
-		return wstring.Sequence, errors.New("subsequence bound(s) not present")
+		return wstring.Sequence, ErrBoundsNotPresent
 	}
 
 	// Same WCharacter Start & End
