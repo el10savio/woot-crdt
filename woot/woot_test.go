@@ -1,6 +1,7 @@
 package woot
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -44,9 +45,10 @@ func Test_ElementAt(t *testing.T) {
 	wstring = Initialize()
 
 	expectedWCharacter := WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: WCharacterEnd.ID}
-	actualWCharacter := wstring.ElementAt(0)
+	actualWCharacter, actualErr := wstring.ElementAt(0)
 
 	assert.Equal(t, expectedWCharacter, actualWCharacter)
+	assert.Nil(t, actualErr)
 
 	wstring = Clear()
 }
@@ -55,9 +57,12 @@ func Test_ElementAt_EmptyWString(t *testing.T) {
 	wstring = WString{Sequence: []WCharacter{}}
 
 	expectedWCharacter := WCharacter{}
-	actualWCharacter := wstring.ElementAt(0)
+	expectedErr := errors.New("position out of bounds")
+
+	actualWCharacter, actualErr := wstring.ElementAt(0)
 
 	assert.Equal(t, expectedWCharacter, actualWCharacter)
+	assert.Equal(t, expectedErr, actualErr)
 
 	wstring = Clear()
 }
@@ -66,9 +71,12 @@ func Test_ElementAt_PositionOutOfBounds(t *testing.T) {
 	wstring = Initialize()
 
 	expectedWCharacter := WCharacter{}
-	actualWCharacter := wstring.ElementAt(2)
+	expectedErr := errors.New("position out of bounds")
+
+	actualWCharacter, actualErr := wstring.ElementAt(2)
 
 	assert.Equal(t, expectedWCharacter, actualWCharacter)
+	assert.Equal(t, expectedErr, actualErr)
 
 	wstring = Clear()
 }
@@ -77,9 +85,10 @@ func Test_Postion(t *testing.T) {
 	wstring = Initialize()
 
 	expectedPosition := 2
-	actualPosition := wstring.Position("end")
+	actualPosition, actualErr := wstring.Position("end")
 
 	assert.Equal(t, expectedPosition, actualPosition)
+	assert.Nil(t, actualErr)
 
 	wstring = Clear()
 }
@@ -88,9 +97,10 @@ func Test_Postion_EmptyWString(t *testing.T) {
 	wstring = WString{Sequence: []WCharacter{}}
 
 	expectedPosition := -1
-	actualPosition := wstring.Position("end")
+	actualPosition, actualErr := wstring.Position("end")
 
 	assert.Equal(t, expectedPosition, actualPosition)
+	assert.Nil(t, actualErr)
 
 	wstring = Clear()
 }
@@ -99,9 +109,12 @@ func Test_Postion_EmptyWCharacterID(t *testing.T) {
 	wstring = Initialize()
 
 	expectedPosition := -1
-	actualPosition := wstring.Position("")
+	expectedErr := errors.New("empty wcharacter ID provided")
+
+	actualPosition, actualErr := wstring.Position("")
 
 	assert.Equal(t, expectedPosition, actualPosition)
+	assert.Equal(t, expectedErr, actualErr)
 
 	wstring = Clear()
 }
@@ -110,9 +123,10 @@ func Test_Postion_WCharacterNotPresent(t *testing.T) {
 	wstring = Initialize()
 
 	expectedPosition := -1
-	actualPosition := wstring.Position("not_present")
+	actualPosition, actualErr := wstring.Position("not_present")
 
 	assert.Equal(t, expectedPosition, actualPosition)
+	assert.Nil(t, actualErr)
 
 	wstring = Clear()
 }
@@ -182,9 +196,10 @@ func Test_Subseq(t *testing.T) {
 	expectedSubseq := []WCharacter{
 		WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""},
 	}
-	actualSubseq := wstring.Subseq(wcharacterStart, wcharacterEnd)
+	actualSubseq, actualErr := wstring.Subseq(wcharacterStart, wcharacterEnd)
 
 	assert.Equal(t, expectedSubseq, actualSubseq)
+	assert.Nil(t, actualErr)
 
 	wstring = Clear()
 }
@@ -210,9 +225,12 @@ func Test_Subseq_WCharacterNotPresent(t *testing.T) {
 		WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: "", WCNext: ""},
 		WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 	}
-	actualSubseq := wstring.Subseq(wcharacterStart, wcharacterEnd)
+	expectedErr := errors.New("subsequence bound(s) not present")
+
+	actualSubseq, actualErr := wstring.Subseq(wcharacterStart, wcharacterEnd)
 
 	assert.Equal(t, expectedSubseq, actualSubseq)
+	assert.Equal(t, expectedErr, actualErr)
 
 	wstring = Clear()
 }
@@ -232,9 +250,10 @@ func Test_Subseq_SameWCharacterRange(t *testing.T) {
 	wcharacterEnd := WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
 
 	expectedSubseq := []WCharacter{}
-	actualSubseq := wstring.Subseq(wcharacterStart, wcharacterEnd)
+	actualSubseq, actualErr := wstring.Subseq(wcharacterStart, wcharacterEnd)
 
 	assert.Equal(t, expectedSubseq, actualSubseq)
+	assert.Nil(t, actualErr)
 
 	wstring = Clear()
 }

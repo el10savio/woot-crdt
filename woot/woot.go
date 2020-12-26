@@ -1,5 +1,7 @@
 package woot
 
+import "errors"
+
 // WString ...
 type WString struct {
 	Sequence []WCharacter // Ordered sequence of WCharacters
@@ -35,29 +37,30 @@ func (wstring *WString) Length() int {
 }
 
 // ElementAt ...
-func (wstring *WString) ElementAt(position int) WCharacter {
+func (wstring *WString) ElementAt(position int) (WCharacter, error) {
 	if position < 0 || position >= wstring.Length() {
-		// TODO: Return err
-		return WCharacter{}
+		// TODO: Collate errors to vars list
+		return WCharacter{}, errors.New("position out of bounds")
 	}
-	return wstring.Sequence[position]
+	return wstring.Sequence[position], nil
 }
 
 // Position ...
 // Returns wstring natural number
-func (wstring *WString) Position(wcharacterID string) int {
+func (wstring *WString) Position(wcharacterID string) (int, error) {
 	if wcharacterID == "" {
-		// TODO: Return err
-		return -1
+		// TODO: Collate errors to vars list
+		return -1, errors.New("empty wcharacter ID provided")
 	}
 
 	for position, _wcharacter := range wstring.Sequence {
 		if wcharacterID == _wcharacter.ID {
-			return position + 1
+			return position + 1, nil
 		}
 	}
 
-	return -1
+	return -1, nil
+
 }
 
 // LocalInsert ...
@@ -87,26 +90,25 @@ func (wstring *WString) LocalInsert(wcharacter WCharacter, position int) *WStrin
 
 // Subseq ...
 // Excluding wcharacterStart & wcharacterEnd
-func (wstring *WString) Subseq(wcharacterStart, wcharacterEnd WCharacter) []WCharacter {
-	startPosition := wstring.Position(wcharacterStart.ID)
-	endPosition := wstring.Position(wcharacterEnd.ID)
+func (wstring *WString) Subseq(wcharacterStart, wcharacterEnd WCharacter) ([]WCharacter, error) {
+	startPosition, _ := wstring.Position(wcharacterStart.ID)
+	endPosition, _ := wstring.Position(wcharacterEnd.ID)
 
-	// TODO: Return err if position == -1
 	if startPosition == -1 || endPosition == -1 {
-		return wstring.Sequence
+		return wstring.Sequence, errors.New("subsequence bound(s) not present")
 	}
 
 	// Same WCharacter Start & End
 	if startPosition == endPosition {
-		return []WCharacter{}
+		return []WCharacter{}, nil
 	}
 
-	return wstring.Sequence[startPosition : endPosition-1]
+	return wstring.Sequence[startPosition : endPosition-1], nil
 }
 
 // Contains ...
 func (wstring *WString) Contains(wcharacterID string) bool {
-	position := wstring.Position(wcharacterID)
+	position, _ := wstring.Position(wcharacterID)
 	return position != -1
 }
 

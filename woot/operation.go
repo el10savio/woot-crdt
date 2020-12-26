@@ -53,17 +53,22 @@ func (wstring *WString) GenerateDelete(position int) {
 
 // IntegrateDelete ...
 func (wstring *WString) IntegrateDelete(wcharacter WCharacter) {
-	// TODO: Check if position == -1
-	position := wstring.Position(wcharacter.ID)
+	position, _ := wstring.Position(wcharacter.ID)
+
+	if position == -1 {
+		return
+	}
+
 	wstring.Sequence[position].Visible = false
 }
 
 // IntegrateInsert ...
 func (wstring *WString) IntegrateInsert(wcharacter, WCharacterPrevious, WCharacterNext WCharacter) {
-	subsequence := wstring.Subseq(WCharacterPrevious, WCharacterNext)
+	subsequence, _ := wstring.Subseq(WCharacterPrevious, WCharacterNext)
+	position, _ := wstring.Position(WCharacterNext.ID)
 
 	if len(subsequence) == 0 {
-		wstring = wstring.LocalInsert(wcharacter, wstring.Position(WCharacterNext.ID))
+		wstring = wstring.LocalInsert(wcharacter, position)
 		return
 	}
 
