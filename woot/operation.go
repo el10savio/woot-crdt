@@ -28,7 +28,7 @@ func (operation *Operation) IsExecutable(wstring WString) bool {
 }
 
 // GenerateInsert ...
-func (wstring *WString) GenerateInsert(position int, alphabet string) {
+func (wstring *WString) GenerateInsert(position int, alphabet string) error {
 	LocalClock++
 
 	WCharacterPrevious := IthVisible(*wstring, position)
@@ -42,7 +42,7 @@ func (wstring *WString) GenerateInsert(position int, alphabet string) {
 		WCNext:     WCharacterNext.ID,
 	}
 
-	wstring.IntegrateInsert(wcharacter, WCharacterPrevious, WCharacterNext)
+	return wstring.IntegrateInsert(wcharacter, WCharacterPrevious, WCharacterNext)
 
 	// Broadcast
 }

@@ -8,6 +8,16 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+var (
+	// WString is the WString
+	// data structure initialized
+	WString woot.WString
+)
+
+func init() {
+	WString = woot.Initialize()
+}
+
 // Route defines the Mux
 // router individual route
 type Route struct {
@@ -19,23 +29,14 @@ type Route struct {
 // Routes is a collection
 // of individual Routes
 var Routes = []Route{
-	// {"/", "GET", Index},
-	// {"/editor", "GET", Editor},
-	// {"/lwwset/list", "GET", List},
-	// {"/lwwset/values", "GET", Values},
-	// {"/lwwset/lookup/{value}", "GET", Lookup},
-	// {"/lwwset/add/{value}", "POST", Add},
-	// {"/lwwset/remove/{value}", "POST", Remove},
+	{"/woot", "GET", WOOT},
+	{"/woot/list", "GET", List},
+	{"/lwwset/add/{value}/{position}", "POST", Add},
 }
 
-// Index is the handler for the path "/"
-func Index(w http.ResponseWriter, r *http.Request) {
+// WOOT is the handler for the path "/woot"
+func WOOT(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello World WOOT Node\n")
-}
-
-// Editor is the handler for the path "/editor"
-func Editor(w http.ResponseWriter, r *http.Request) {
-	http.FileServer(http.Dir("./static/"))
 }
 
 // Logger is the middleware to
@@ -46,24 +47,27 @@ func Logger(next http.Handler) http.Handler {
 			"path":   r.URL,
 			"method": r.Method,
 		}).Info("incoming request")
-
 		next.ServeHTTP(w, r)
 	})
 }
 
 // Router returns a mux router
 func Router() *mux.Router {
+	// Initialize Router
 	router := mux.NewRouter()
 
-	// for _, route := range Routes {
-	// 	router.HandleFunc(
-	// 		route.Path,
-	// 		route.Handler,
-	// 	).Methods(route.Method)
-	// }
+	// Instantiate Routes
+	for _, route := range Routes {
+		router.HandleFunc(
+			route.Path,
+			route.Handler,
+		).Methods(route.Method)
+	}
 
+	// Add static file serve handler
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./handlers/public")))
 
+	// Enable Router Logger
 	router.Use(Logger)
 
 	return router
