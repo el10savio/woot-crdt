@@ -19,12 +19,7 @@ func Clear() WString {
 }
 
 func Test_Length(t *testing.T) {
-	wstring = WString{
-		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-		},
-	}
+	wstring = Initialize()
 
 	expectedLength := 2
 	actualLength := wstring.Length()
@@ -46,12 +41,7 @@ func Test_Length_Empty(t *testing.T) {
 }
 
 func Test_ElementAt(t *testing.T) {
-	wstring = WString{
-		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-		},
-	}
+	wstring = Initialize()
 
 	expectedWCharacter := WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
 	actualWCharacter := wstring.ElementAt(0)
@@ -73,12 +63,7 @@ func Test_ElementAt_EmptyWString(t *testing.T) {
 }
 
 func Test_ElementAt_PositionOutOfBounds(t *testing.T) {
-	wstring = WString{
-		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-		},
-	}
+	wstring = Initialize()
 
 	expectedWCharacter := WCharacter{}
 	actualWCharacter := wstring.ElementAt(2)
@@ -89,12 +74,7 @@ func Test_ElementAt_PositionOutOfBounds(t *testing.T) {
 }
 
 func Test_Postion(t *testing.T) {
-	wstring = WString{
-		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-		},
-	}
+	wstring = Initialize()
 
 	expectedPosition := 2
 	actualPosition := wstring.Position("end")
@@ -116,12 +96,7 @@ func Test_Postion_EmptyWString(t *testing.T) {
 }
 
 func Test_Postion_EmptyWCharacterID(t *testing.T) {
-	wstring = WString{
-		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-		},
-	}
+	wstring = Initialize()
 
 	expectedPosition := -1
 	actualPosition := wstring.Position("")
@@ -132,12 +107,7 @@ func Test_Postion_EmptyWCharacterID(t *testing.T) {
 }
 
 func Test_Postion_WCharacterNotPresent(t *testing.T) {
-	wstring = WString{
-		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-		},
-	}
+	wstring = Initialize()
 
 	expectedPosition := -1
 	actualPosition := wstring.Position("not_present")
@@ -151,12 +121,7 @@ func Test_Postion_WCharacterNotPresent(t *testing.T) {
 // TODO: Test_LocalInsert_Ending
 
 func Test_LocalInsert(t *testing.T) {
-	wstring = WString{
-		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-		},
-	}
+	wstring = Initialize()
 
 	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
 
@@ -175,12 +140,7 @@ func Test_LocalInsert(t *testing.T) {
 }
 
 func Test_LocalInsert_PositionOutOfBounds(t *testing.T) {
-	wstring = WString{
-		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-		},
-	}
+	wstring = Initialize()
 
 	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
 
@@ -193,12 +153,7 @@ func Test_LocalInsert_PositionOutOfBounds(t *testing.T) {
 }
 
 func Test_LocalInsert_EmptyWCharacter(t *testing.T) {
-	wstring = WString{
-		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-		},
-	}
+	wstring = Initialize()
 
 	wcharacter := WCharacter{ID: "", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
 

@@ -18,18 +18,23 @@ type WCharacter struct {
 }
 
 var (
-	// TODO: Initialize wstring to contain WCharacterStart & WCharacterEnd
 	// TODO: Update WCharacterStart & WCharacterEnd for every wstring operation
 
+	// WCharacterStart ...
 	WCharacterStart = WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
-	WCharacterEnd   = WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
+
+	// WCharacterEnd ...
+	WCharacterEnd = WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
 )
 
 // Pool is a local var slice of type []Operation{}
 
 // Initialize ...
+// TODO: Initialize wstring to contain WCharacterStart & WCharacterEnd
 func Initialize() WString {
-	return WString{}
+	_WCharacterStart, _WCharacterEnd := WCharacterStart, WCharacterEnd
+	_WCharacterStart.WCNext, _WCharacterEnd.WCPrevious = &WCharacterEnd, &WCharacterStart
+	return WString{Sequence: []WCharacter{_WCharacterStart, _WCharacterEnd}}
 }
 
 // Length ...
