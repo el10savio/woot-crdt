@@ -18,10 +18,10 @@ func (operation *Operation) IsExecutable(wstring WString) bool {
 	character := operation.Character
 
 	if operation.Type == "delete" {
-		return wstring.Contains(character)
+		return wstring.Contains(character.ID)
 	}
 
-	return wstring.Contains(*character.WCPrevious) && wstring.Contains(*character.WCNext)
+	return wstring.Contains(character.WCPrevious) && wstring.Contains(character.WCNext)
 }
 
 // GenerateInsert ...
@@ -35,8 +35,8 @@ func (wstring *WString) GenerateInsert(position int, alphabet string) {
 		ID:         fmt.Sprint(SiteID) + fmt.Sprint(LocalClock),
 		Visible:    true,
 		Alphabet:   alphabet,
-		WCPrevious: &WCharacterPrevious,
-		WCNext:     &WCharacterNext,
+		WCPrevious: WCharacterPrevious.ID,
+		WCNext:     WCharacterNext.ID,
 	}
 
 	wstring.IntegrateInsert(wcharacter, WCharacterPrevious, WCharacterNext)

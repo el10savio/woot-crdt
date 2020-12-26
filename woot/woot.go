@@ -7,34 +7,26 @@ type WString struct {
 
 // WCharacter ...
 type WCharacter struct {
-	ID       string // Identifier of the character
-	Visible  bool   // Is the character visible
-	Alphabet string // Alphabetical value of the effect character
-
-	// TODO: Change Previous & Next WCharacter to store ID
-
-	WCPrevious *WCharacter // Identifier of the previous WCharacter
-	WCNext     *WCharacter // Identifier of the next WCharacter
+	ID         string // Identifier of the character
+	Visible    bool   // Is the character visible
+	Alphabet   string // Alphabetical value of the effect character
+	WCPrevious string // Identifier of the previous WCharacter
+	WCNext     string // Identifier of the next WCharacter
 }
 
 var (
-	// TODO: Update WCharacterStart & WCharacterEnd for every wstring operation
-
 	// WCharacterStart ...
-	WCharacterStart = WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
+	WCharacterStart = WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: "end"}
 
 	// WCharacterEnd ...
-	WCharacterEnd = WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
+	WCharacterEnd = WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "start", WCNext: ""}
 )
 
 // Pool is a local var slice of type []Operation{}
 
 // Initialize ...
-// TODO: Initialize wstring to contain WCharacterStart & WCharacterEnd
 func Initialize() WString {
-	_WCharacterStart, _WCharacterEnd := WCharacterStart, WCharacterEnd
-	_WCharacterStart.WCNext, _WCharacterEnd.WCPrevious = &WCharacterEnd, &WCharacterStart
-	return WString{Sequence: []WCharacter{_WCharacterStart, _WCharacterEnd}}
+	return WString{Sequence: []WCharacter{WCharacterStart, WCharacterEnd}}
 }
 
 // Length ...
@@ -84,6 +76,12 @@ func (wstring *WString) LocalInsert(wcharacter WCharacter, position int) *WStrin
 		append([]WCharacter{wcharacter}, wstring.Sequence[position:]...)...,
 	)
 
+	wstring.Sequence[position].WCPrevious = wstring.Sequence[position-1].ID
+	wstring.Sequence[position].WCNext = wstring.Sequence[position+1].ID
+
+	wstring.Sequence[position-1].WCNext = wcharacter.ID
+	wstring.Sequence[position+1].WCPrevious = wcharacter.ID
+
 	return wstring
 }
 
@@ -107,8 +105,8 @@ func (wstring *WString) Subseq(wcharacterStart, wcharacterEnd WCharacter) []WCha
 }
 
 // Contains ...
-func (wstring *WString) Contains(wcharacter WCharacter) bool {
-	position := wstring.Position(wcharacter.ID)
+func (wstring *WString) Contains(wcharacterID string) bool {
+	position := wstring.Position(wcharacterID)
 	return position != -1
 }
 

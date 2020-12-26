@@ -43,7 +43,7 @@ func Test_Length_Empty(t *testing.T) {
 func Test_ElementAt(t *testing.T) {
 	wstring = Initialize()
 
-	expectedWCharacter := WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil}
+	expectedWCharacter := WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: WCharacterEnd.ID}
 	actualWCharacter := wstring.ElementAt(0)
 
 	assert.Equal(t, expectedWCharacter, actualWCharacter)
@@ -123,13 +123,13 @@ func Test_Postion_WCharacterNotPresent(t *testing.T) {
 func Test_LocalInsert(t *testing.T) {
 	wstring = Initialize()
 
-	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
+	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: WCharacterStart.ID, WCNext: WCharacterEnd.ID}
 
 	expectedWString := &WString{
 		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: wcharacter.ID},
+			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: WCharacterStart.ID, WCNext: WCharacterEnd.ID},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: wcharacter.ID, WCNext: ""},
 		},
 	}
 	actualWString := wstring.LocalInsert(wcharacter, 1)
@@ -142,7 +142,7 @@ func Test_LocalInsert(t *testing.T) {
 func Test_LocalInsert_PositionOutOfBounds(t *testing.T) {
 	wstring = Initialize()
 
-	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
+	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
 
 	expectedWString := &wstring
 	actualWString := wstring.LocalInsert(wcharacter, 3)
@@ -155,7 +155,7 @@ func Test_LocalInsert_PositionOutOfBounds(t *testing.T) {
 func Test_LocalInsert_EmptyWCharacter(t *testing.T) {
 	wstring = Initialize()
 
-	wcharacter := WCharacter{ID: "", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
+	wcharacter := WCharacter{ID: "", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
 
 	expectedWString := &wstring
 	actualWString := wstring.LocalInsert(wcharacter, 1)
@@ -168,19 +168,19 @@ func Test_LocalInsert_EmptyWCharacter(t *testing.T) {
 func Test_Subseq(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a1", Visible: true, Alphabet: "c", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a1", Visible: true, Alphabet: "c", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 		},
 	}
 
-	wcharacterStart := WCharacter{ID: "a1", Visible: true, Alphabet: "c", WCPrevious: nil, WCNext: nil}
-	wcharacterEnd := WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: nil, WCNext: nil}
+	wcharacterStart := WCharacter{ID: "a1", Visible: true, Alphabet: "c", WCPrevious: "", WCNext: ""}
+	wcharacterEnd := WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: "", WCNext: ""}
 
 	expectedSubseq := []WCharacter{
-		WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil},
+		WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""},
 	}
 	actualSubseq := wstring.Subseq(wcharacterStart, wcharacterEnd)
 
@@ -192,23 +192,23 @@ func Test_Subseq(t *testing.T) {
 func Test_Subseq_WCharacterNotPresent(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a1", Visible: true, Alphabet: "c", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a1", Visible: true, Alphabet: "c", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 		},
 	}
 
-	wcharacterStart := WCharacter{ID: "a4", Visible: true, Alphabet: "l", WCPrevious: nil, WCNext: nil}
-	wcharacterEnd := WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: nil, WCNext: nil}
+	wcharacterStart := WCharacter{ID: "a4", Visible: true, Alphabet: "l", WCPrevious: "", WCNext: ""}
+	wcharacterEnd := WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: "", WCNext: ""}
 
 	expectedSubseq := []WCharacter{
-		WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-		WCharacter{ID: "a1", Visible: true, Alphabet: "c", WCPrevious: nil, WCNext: nil},
-		WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil},
-		WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: nil, WCNext: nil},
-		WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
+		WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
+		WCharacter{ID: "a1", Visible: true, Alphabet: "c", WCPrevious: "", WCNext: ""},
+		WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""},
+		WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: "", WCNext: ""},
+		WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 	}
 	actualSubseq := wstring.Subseq(wcharacterStart, wcharacterEnd)
 
@@ -220,16 +220,16 @@ func Test_Subseq_WCharacterNotPresent(t *testing.T) {
 func Test_Subseq_SameWCharacterRange(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a1", Visible: true, Alphabet: "c", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a1", Visible: true, Alphabet: "c", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a3", Visible: true, Alphabet: "t", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 		},
 	}
 
-	wcharacterStart := WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
-	wcharacterEnd := WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
+	wcharacterStart := WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
+	wcharacterEnd := WCharacter{ID: "a2", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
 
 	expectedSubseq := []WCharacter{}
 	actualSubseq := wstring.Subseq(wcharacterStart, wcharacterEnd)
@@ -242,16 +242,16 @@ func Test_Subseq_SameWCharacterRange(t *testing.T) {
 func Test_Contains(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 		},
 	}
 
-	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
+	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
 
 	expectedContains := true
-	actualContains := wstring.Contains(wcharacter)
+	actualContains := wstring.Contains(wcharacter.ID)
 
 	assert.Equal(t, expectedContains, actualContains)
 
@@ -261,16 +261,16 @@ func Test_Contains(t *testing.T) {
 func Test_Contains_WCharacterNotPresent(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 		},
 	}
 
-	wcharacter := WCharacter{ID: "a2", Visible: true, Alphabet: "b", WCPrevious: nil, WCNext: nil}
+	wcharacter := WCharacter{ID: "a2", Visible: true, Alphabet: "b", WCPrevious: "", WCNext: ""}
 
 	expectedContains := false
-	actualContains := wstring.Contains(wcharacter)
+	actualContains := wstring.Contains(wcharacter.ID)
 
 	assert.Equal(t, expectedContains, actualContains)
 
@@ -280,10 +280,10 @@ func Test_Contains_WCharacterNotPresent(t *testing.T) {
 func Test_Contains_EmptyWString(t *testing.T) {
 	wstring = WString{}
 
-	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
+	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
 
 	expectedContains := false
-	actualContains := wstring.Contains(wcharacter)
+	actualContains := wstring.Contains(wcharacter.ID)
 
 	assert.Equal(t, expectedContains, actualContains)
 
@@ -293,9 +293,9 @@ func Test_Contains_EmptyWString(t *testing.T) {
 func Test_Value(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 		},
 	}
 
@@ -310,10 +310,10 @@ func Test_Value(t *testing.T) {
 func Test_Value_NoVisibleWCharacters(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a", Visible: false, Alphabet: "a", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "b", Visible: false, Alphabet: "b", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a", Visible: false, Alphabet: "a", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "b", Visible: false, Alphabet: "b", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 		},
 	}
 
@@ -328,13 +328,13 @@ func Test_Value_NoVisibleWCharacters(t *testing.T) {
 func Test_IthVisible(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 		},
 	}
 
-	expectedWCharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: nil, WCNext: nil}
+	expectedWCharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
 	actualWCharacter := IthVisible(wstring, 0)
 
 	assert.Equal(t, expectedWCharacter, actualWCharacter)
@@ -345,9 +345,9 @@ func Test_IthVisible(t *testing.T) {
 func Test_IthVisible_NoVisibleWCharacters(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
-			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "a", Visible: false, Alphabet: "a", WCPrevious: nil, WCNext: nil},
-			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: nil, WCNext: nil},
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "a", Visible: false, Alphabet: "a", WCPrevious: "", WCNext: ""},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""},
 		},
 	}
 
