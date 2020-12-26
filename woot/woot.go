@@ -64,15 +64,14 @@ func (wstring *WString) Position(wcharacterID string) (int, error) {
 }
 
 // LocalInsert ...
-func (wstring *WString) LocalInsert(wcharacter WCharacter, position int) *WString {
+// TODO: Collate errors to vars list
+func (wstring *WString) LocalInsert(wcharacter WCharacter, position int) (*WString, error) {
 	if position < 0 || position >= wstring.Length() {
-		// TODO: Return err
-		return wstring
+		return wstring, errors.New("position out of bounds")
 	}
 
 	if wcharacter.ID == "" {
-		// TODO: Return err
-		return wstring
+		return wstring, errors.New("empty wcharacter ID provided")
 	}
 
 	wstring.Sequence = append(wstring.Sequence[:position],
@@ -85,7 +84,7 @@ func (wstring *WString) LocalInsert(wcharacter WCharacter, position int) *WStrin
 	wstring.Sequence[position-1].WCNext = wcharacter.ID
 	wstring.Sequence[position+1].WCPrevious = wcharacter.ID
 
-	return wstring
+	return wstring, nil
 }
 
 // Subseq ...

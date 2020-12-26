@@ -63,13 +63,15 @@ func (wstring *WString) IntegrateDelete(wcharacter WCharacter) {
 }
 
 // IntegrateInsert ...
-func (wstring *WString) IntegrateInsert(wcharacter, WCharacterPrevious, WCharacterNext WCharacter) {
+func (wstring *WString) IntegrateInsert(wcharacter, WCharacterPrevious, WCharacterNext WCharacter) error {
+	var err error
+
 	subsequence, _ := wstring.Subseq(WCharacterPrevious, WCharacterNext)
 	position, _ := wstring.Position(WCharacterNext.ID)
 
 	if len(subsequence) == 0 {
-		wstring = wstring.LocalInsert(wcharacter, position)
-		return
+		wstring, err = wstring.LocalInsert(wcharacter, position)
+		return err
 	}
 
 	index := 1
@@ -78,5 +80,5 @@ func (wstring *WString) IntegrateInsert(wcharacter, WCharacterPrevious, WCharact
 		index++
 	}
 
-	wstring.IntegrateInsert(wcharacter, subsequence[index-1], subsequence[index])
+	return wstring.IntegrateInsert(wcharacter, subsequence[index-1], subsequence[index])
 }
