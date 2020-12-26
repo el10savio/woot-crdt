@@ -14,6 +14,7 @@ var (
 	LocalClock = 0
 )
 
+// TODO: Unit Tests
 // TODO: Bubble up errors
 
 // IsExecutable ...
@@ -53,8 +54,6 @@ func (wstring *WString) GenerateDelete(position int) {
 	wstring.IntegrateDelete(wcharacter)
 	// Broadcast
 }
-
-// TODO: Unit Tests
 
 // IntegrateDelete ...
 func (wstring *WString) IntegrateDelete(wcharacter WCharacter) {

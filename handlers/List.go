@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/el10savio/woot-crdt/woot"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -11,7 +12,7 @@ import (
 // all the values present in the WString node in the server
 func List(w http.ResponseWriter, r *http.Request) {
 	// Get the values from the WString
-	text := WString.Value()
+	text := woot.Value(WString)
 
 	// DEBUG log in the case of success
 	// indicating the new WString

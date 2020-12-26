@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/el10savio/woot-crdt/woot"
+
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 )
@@ -31,7 +33,7 @@ type Route struct {
 var Routes = []Route{
 	{"/woot", "GET", WOOT},
 	{"/woot/list", "GET", List},
-	{"/lwwset/add/{value}/{position}", "POST", Add},
+	{"/woot/add", "POST", Add},
 }
 
 // WOOT is the handler for the path "/woot"
