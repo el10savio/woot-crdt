@@ -19,6 +19,7 @@ type addBody struct {
 func Add(w http.ResponseWriter, r *http.Request) {
 	var err error
 	var requestBody addBody
+	var WStringPointer *woot.WString
 
 	// Obtain the value & position from POST Request Body
 	decoder := json.NewDecoder(r.Body)
@@ -37,12 +38,16 @@ func Add(w http.ResponseWriter, r *http.Request) {
 	}).Debug("successful request body parse")
 
 	// Add the given value to our stored WString
-	err = WString.GenerateInsert(requestBody.Position, requestBody.Value)
+	WStringPointer, err = WString.GenerateInsert(requestBody.Position, requestBody.Value)
 	if err != nil {
 		log.WithFields(log.Fields{"error": err}).Error("failed to add value")
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	// Dereference the pointer to
+	// the updated WString
+	WString = *WStringPointer
 
 	// DEBUG log in the case of success indicating
 	// the new WString and the value added
