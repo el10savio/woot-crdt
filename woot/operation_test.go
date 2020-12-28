@@ -354,3 +354,70 @@ func Test_GenerateDelete_NoValue(t *testing.T) {
 	wstring = Clear()
 	LocalClock = 0
 }
+
+func Test_GenerateDelete_WordReplaceInPlace(t *testing.T) {
+	wstring = Initialize()
+	LocalClock = 0
+
+	var WStringPtr *WString
+
+	WStringPtr, _ = wstring.GenerateInsert(1, "1")
+	WStringPtr, _ = WStringPtr.GenerateInsert(2, "2")
+	WStringPtr, _ = WStringPtr.GenerateInsert(3, "3")
+	WStringPtr = WStringPtr.GenerateDelete(2)
+	WStringPtr, _ = WStringPtr.GenerateInsert(2, "4")
+
+	expectedText := "143"
+	actualText := Value(*WStringPtr)
+
+	assert.Equal(t, expectedText, actualText)
+
+	wstring = Clear()
+	LocalClock = 0
+}
+
+func Test_GenerateDelete_SentenceReplaceInPlace(t *testing.T) {
+	wstring = Initialize()
+	LocalClock = 0
+
+	var WStringPtr *WString
+
+	WStringPtr, _ = wstring.GenerateInsert(1, "1")
+	WStringPtr, _ = WStringPtr.GenerateInsert(2, "2")
+	WStringPtr, _ = WStringPtr.GenerateInsert(3, "3")
+	WStringPtr, _ = WStringPtr.GenerateInsert(4, " ")
+
+	WStringPtr, _ = wstring.GenerateInsert(5, "4")
+	WStringPtr, _ = WStringPtr.GenerateInsert(6, "5")
+	WStringPtr, _ = WStringPtr.GenerateInsert(7, "6")
+	WStringPtr, _ = WStringPtr.GenerateInsert(8, " ")
+
+	WStringPtr, _ = wstring.GenerateInsert(9, "7")
+	WStringPtr, _ = WStringPtr.GenerateInsert(10, "8")
+	WStringPtr, _ = WStringPtr.GenerateInsert(11, "9")
+	WStringPtr, _ = WStringPtr.GenerateInsert(12, " ")
+
+	WStringPtr = wstring.GenerateDelete(1)
+	WStringPtr = WStringPtr.GenerateDelete(1)
+	WStringPtr = WStringPtr.GenerateDelete(1)
+
+	WStringPtr, _ = wstring.GenerateInsert(1, "7")
+	WStringPtr, _ = WStringPtr.GenerateInsert(2, "8")
+	WStringPtr, _ = WStringPtr.GenerateInsert(3, "9")
+
+	WStringPtr = wstring.GenerateDelete(9)
+	WStringPtr = WStringPtr.GenerateDelete(9)
+	WStringPtr = WStringPtr.GenerateDelete(9)
+
+	WStringPtr, _ = wstring.GenerateInsert(9, "1")
+	WStringPtr, _ = wstring.GenerateInsert(10, "2")
+	WStringPtr, _ = wstring.GenerateInsert(11, "3")
+
+	expectedText := "789 456 123 "
+	actualText := Value(*WStringPtr)
+
+	assert.Equal(t, expectedText, actualText)
+
+	wstring = Clear()
+	LocalClock = 0
+}

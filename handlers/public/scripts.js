@@ -4,12 +4,12 @@ console.log("woot crdt")
 $('#text_box').on('keydown', function (event) {
     // If Backspace/Delete
     if (event.which === 8) {
-        let position = $("#text_box").prop('selectionStart') - 1
+        let position = $("#text_box").prop('selectionStart')
 
         console.log(
             "Deleted: Position %s",
-            $("#text_box").prop('selectionStart') - 1
-            );
+            position
+        );
 
         let body = {
             position: position
@@ -28,7 +28,7 @@ $('#text_box').on('keydown', function (event) {
 // Character Added
 $('#text_box').on('keypress', function (event) {
     let value = String.fromCharCode(event.which)
-    let position = $("#text_box").prop('selectionStart')
+    let position = $("#text_box").prop('selectionStart') + 1
 
     console.log(
         "Added: Character %s Position %s",
