@@ -29,7 +29,7 @@ func (operation *Operation) IsExecutable(wstring WString) bool {
 }
 
 // GenerateInsert ...
-func (wstring *WString) GenerateInsert(position int, alphabet string) error {
+func (wstring *WString) GenerateInsert(position int, alphabet string) (*WString, error) {
 	LocalClock++
 
 	WCharacterPrevious := IthVisible(*wstring, position)
@@ -49,33 +49,37 @@ func (wstring *WString) GenerateInsert(position int, alphabet string) error {
 }
 
 // GenerateDelete ...
-func (wstring *WString) GenerateDelete(position int) {
+func (wstring *WString) GenerateDelete(position int) *WString {
 	wcharacter := IthVisible(*wstring, position)
-	wstring.IntegrateDelete(wcharacter)
+	return wstring.IntegrateDelete(wcharacter)
 	// Broadcast
 }
 
 // IntegrateDelete ...
-func (wstring *WString) IntegrateDelete(wcharacter WCharacter) {
+func (wstring *WString) IntegrateDelete(wcharacter WCharacter) *WString {
 	position, _ := wstring.Position(wcharacter.ID)
 
 	if position == -1 {
-		return
+		return wstring
 	}
 
-	wstring.Sequence[position].Visible = false
+	wstring.Sequence[position-1].Visible = false
+
+	return wstring
 }
 
 // IntegrateInsert ...
-func (wstring *WString) IntegrateInsert(wcharacter, WCharacterPrevious, WCharacterNext WCharacter) error {
+func (wstring *WString) IntegrateInsert(wcharacter, WCharacterPrevious, WCharacterNext WCharacter) (*WString, error) {
 	var err error
 
 	subsequence, _ := wstring.Subseq(WCharacterPrevious, WCharacterNext)
 	position, _ := wstring.Position(WCharacterNext.ID)
 
+	position--
+
 	if len(subsequence) == 0 {
 		wstring, err = wstring.LocalInsert(wcharacter, position)
-		return err
+		return wstring, err
 	}
 
 	index := 1

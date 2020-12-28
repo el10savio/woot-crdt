@@ -133,7 +133,7 @@ func IthVisible(wstring WString, position int) WCharacter {
 
 	for _, wcharacter := range wstring.Sequence {
 		if wcharacter.Visible {
-			if count == position {
+			if count == position-1 {
 				return wcharacter
 			}
 			count++
