@@ -250,3 +250,23 @@ func Test_GenerateDelete(t *testing.T) {
 	wstring = Clear()
 	LocalClock = 0
 }
+
+func Test_GenerateDelete_NoValue(t *testing.T) {
+	wstring = Initialize()
+	LocalClock = 0
+
+	position := 1
+
+	expectedWString := &wstring
+
+	var WStringPtr *WString
+
+	WStringPtr, _ = wstring.GenerateInsert(position, "a")
+	WStringPtr = WStringPtr.GenerateDelete(position)
+	actualWString := WStringPtr.GenerateDelete(position)
+
+	assert.Equal(t, expectedWString, actualWString)
+
+	wstring = Clear()
+	LocalClock = 0
+}

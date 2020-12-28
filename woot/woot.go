@@ -135,13 +135,3 @@ func IthVisible(wstring WString, position int) WCharacter {
 
 	return WCharacter{ID: "-1"}
 }
-
-// Find ...
-func (wstring *WString) Find(ID string) WCharacter {
-	for _, wcharacter := range wstring.Sequence {
-		if wcharacter.ID == ID {
-			return wcharacter
-		}
-	}
-	return WCharacter{ID: "-1"}
-}

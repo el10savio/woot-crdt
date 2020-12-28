@@ -9,12 +9,14 @@ type Operation struct {
 }
 
 var (
-	// TODO: Convert To String & Tie To IP Address
-	SiteID     = 0
+	// TODO: Convert SiteID To String & Tie To IP Address
+
+	// SiteID ...
+	SiteID = 0
+
+	// LocalClock ...
 	LocalClock = 0
 )
-
-// TODO: Bubble up errors
 
 // IsExecutable ...
 func (operation *Operation) IsExecutable(wstring WString) bool {
@@ -25,6 +27,16 @@ func (operation *Operation) IsExecutable(wstring WString) bool {
 	}
 
 	return wstring.Contains(character.WCPrevious) && wstring.Contains(character.WCNext)
+}
+
+// Find ...
+func (wstring *WString) Find(ID string) WCharacter {
+	for _, wcharacter := range wstring.Sequence {
+		if wcharacter.ID == ID {
+			return wcharacter
+		}
+	}
+	return WCharacter{ID: "-1"}
 }
 
 // GenerateInsert ...

@@ -34,6 +34,7 @@ var Routes = []Route{
 	{"/woot", "GET", WOOT},
 	{"/woot/list", "GET", List},
 	{"/woot/add", "POST", Add},
+	{"/woot/delete", "POST", Delete},
 }
 
 // WOOT is the handler for the path "/woot"
