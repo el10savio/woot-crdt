@@ -2,14 +2,50 @@ console.log("woot crdt")
 
 // Character Deleted
 $('#text_box').on('keydown', function (event) {
-    // If Backspace/Delete 
+    // If Backspace/Delete
     if (event.which === 8) {
-        // Technically returns last character in the string
-        console.log("string %s deleted %s", $(this).val(), $(this).val().substring($(this).val().length - 1, $(this).val().length));
+        let position = $("#text_box").prop('selectionStart') - 1
+
+        console.log(
+            "Deleted: Position %s",
+            $("#text_box").prop('selectionStart') - 1
+            );
+
+        let body = {
+            position: position
+        }
+
+        $.ajax({
+            url: "/woot/delete",
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(body),
+            contentType: 'application/json; charset=utf-8',
+        });
     }
 });
 
 // Character Added
 $('#text_box').on('keypress', function (event) {
-    console.log("string %s added %s", $(this).val(), String.fromCharCode(event.which));
+    let value = String.fromCharCode(event.which)
+    let position = $("#text_box").prop('selectionStart')
+
+    console.log(
+        "Added: Character %s Position %s",
+        value,
+        position
+    );
+
+    let body = {
+        value: value,
+        position: position
+    }
+
+    $.ajax({
+        url: "/woot/add",
+        type: "POST",
+        dataType: "json",
+        data: JSON.stringify(body),
+        contentType: 'application/json; charset=utf-8',
+    });
 });
