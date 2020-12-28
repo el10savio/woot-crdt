@@ -223,6 +223,90 @@ func Test_GenerateInsert_ReplaceEnd(t *testing.T) {
 	LocalClock = 0
 }
 
+func Test_GenerateInsert_Word(t *testing.T) {
+	wstring = Initialize()
+	LocalClock = 0
+
+	alphabets := []string{"a", "b", "c"}
+
+	expectedWString := &WString{
+		Sequence: []WCharacter{
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: "01"},
+			WCharacter{ID: "01", Visible: true, Alphabet: "a", WCPrevious: "start", WCNext: "02"},
+			WCharacter{ID: "02", Visible: true, Alphabet: "b", WCPrevious: "01", WCNext: "03"},
+			WCharacter{ID: "03", Visible: true, Alphabet: "c", WCPrevious: "02", WCNext: "end"},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "03", WCNext: ""},
+		},
+	}
+
+	var actualErr error
+	count := 1
+
+	actualWString, _ := wstring.GenerateInsert(count, alphabets[0])
+
+	for _, alphabet := range alphabets[1:] {
+		count++
+		actualWString, actualErr = wstring.GenerateInsert(count, alphabet)
+	}
+
+	assert.Equal(t, expectedWString, actualWString)
+	assert.Nil(t, actualErr)
+
+	expectedText := "abc"
+	actualText := Value(*actualWString)
+
+	assert.Equal(t, expectedText, actualText)
+
+	wstring = Clear()
+	LocalClock = 0
+}
+
+func Test_GenerateInsert_Sentence(t *testing.T) {
+	wstring = Initialize()
+	LocalClock = 0
+
+	alphabets := []string{"I", " ", "l", "i", "k", "e", " ", "d", "o", "g", "s"}
+
+	expectedWString := &WString{
+		Sequence: []WCharacter{
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: "01"},
+			WCharacter{ID: "01", Visible: true, Alphabet: "I", WCPrevious: "start", WCNext: "02"},
+			WCharacter{ID: "02", Visible: true, Alphabet: " ", WCPrevious: "01", WCNext: "03"},
+			WCharacter{ID: "03", Visible: true, Alphabet: "l", WCPrevious: "02", WCNext: "04"},
+			WCharacter{ID: "04", Visible: true, Alphabet: "i", WCPrevious: "03", WCNext: "05"},
+			WCharacter{ID: "05", Visible: true, Alphabet: "k", WCPrevious: "04", WCNext: "06"},
+			WCharacter{ID: "06", Visible: true, Alphabet: "e", WCPrevious: "05", WCNext: "07"},
+			WCharacter{ID: "07", Visible: true, Alphabet: " ", WCPrevious: "06", WCNext: "08"},
+			WCharacter{ID: "08", Visible: true, Alphabet: "d", WCPrevious: "07", WCNext: "09"},
+			WCharacter{ID: "09", Visible: true, Alphabet: "o", WCPrevious: "08", WCNext: "010"},
+			WCharacter{ID: "010", Visible: true, Alphabet: "g", WCPrevious: "09", WCNext: "011"},
+			WCharacter{ID: "011", Visible: true, Alphabet: "s", WCPrevious: "010", WCNext: "end"},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "011", WCNext: ""},
+		},
+	}
+
+	var actualErr error
+	count := 1
+
+	actualWString, _ := wstring.GenerateInsert(count, alphabets[0])
+
+	for _, alphabet := range alphabets[1:] {
+		count++
+		actualWString, actualErr = wstring.GenerateInsert(count, alphabet)
+	}
+
+	assert.Equal(t, expectedWString, actualWString)
+	assert.Nil(t, actualErr)
+
+	expectedText := "I like dogs"
+	actualText := Value(*actualWString)
+
+	assert.Equal(t, expectedText, actualText)
+
+	wstring = Clear()
+	LocalClock = 0
+}
+
 func Test_GenerateDelete(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
