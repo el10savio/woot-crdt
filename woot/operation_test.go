@@ -168,6 +168,61 @@ func Test_GenerateInsert(t *testing.T) {
 	LocalClock = 0
 }
 
+func Test_GenerateInsert_ReplaceStart(t *testing.T) {
+	wstring = Initialize()
+	LocalClock = 0
+
+	position := 1
+	alphabet1, alphabet2 := "a", "b"
+
+	expectedWString := &WString{
+		Sequence: []WCharacter{
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: "02"},
+			WCharacter{ID: "02", Visible: true, Alphabet: "b", WCPrevious: "start", WCNext: "01"},
+			WCharacter{ID: "01", Visible: true, Alphabet: "a", WCPrevious: "02", WCNext: "end"},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "01", WCNext: ""},
+		},
+	}
+
+	var WStringPtr *WString
+
+	WStringPtr, _ = wstring.GenerateInsert(position, alphabet1)
+	actualWString, actualErr := WStringPtr.GenerateInsert(position, alphabet2)
+
+	assert.Equal(t, expectedWString, actualWString)
+	assert.Nil(t, actualErr)
+
+	wstring = Clear()
+	LocalClock = 0
+}
+
+func Test_GenerateInsert_ReplaceEnd(t *testing.T) {
+	wstring = Initialize()
+	LocalClock = 0
+
+	alphabet1, alphabet2 := "a", "b"
+
+	expectedWString := &WString{
+		Sequence: []WCharacter{
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: "01"},
+			WCharacter{ID: "01", Visible: true, Alphabet: "a", WCPrevious: "start", WCNext: "02"},
+			WCharacter{ID: "02", Visible: true, Alphabet: "b", WCPrevious: "01", WCNext: "end"},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "02", WCNext: ""},
+		},
+	}
+
+	var WStringPtr *WString
+
+	WStringPtr, _ = wstring.GenerateInsert(1, alphabet1)
+	actualWString, actualErr := WStringPtr.GenerateInsert(2, alphabet2)
+
+	assert.Equal(t, expectedWString, actualWString)
+	assert.Nil(t, actualErr)
+
+	wstring = Clear()
+	LocalClock = 0
+}
+
 func Test_GenerateDelete(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{

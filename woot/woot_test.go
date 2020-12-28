@@ -182,6 +182,62 @@ func Test_LocalInsert_Ending(t *testing.T) {
 	wstring = Clear()
 }
 
+func Test_LocalInsert_ReplaceBegining(t *testing.T) {
+	wstring = WString{
+		Sequence: []WCharacter{
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: "a"},
+			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "start", WCNext: "end"},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "a", WCNext: ""},
+		},
+	}
+
+	wcharacter := WCharacter{ID: "b", Visible: true, Alphabet: "b", WCPrevious: "start", WCNext: "a"}
+
+	expectedWString := &WString{
+		Sequence: []WCharacter{
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: "b"},
+			WCharacter{ID: "b", Visible: true, Alphabet: "b", WCPrevious: "start", WCNext: "a"},
+			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "b", WCNext: "end"},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "a", WCNext: ""},
+		},
+	}
+
+	actualWString, actualErr := wstring.LocalInsert(wcharacter, 1)
+
+	assert.Equal(t, expectedWString, actualWString)
+	assert.Nil(t, actualErr)
+
+	wstring = Clear()
+}
+
+func Test_LocalInsert_ReplaceEnding(t *testing.T) {
+	wstring = WString{
+		Sequence: []WCharacter{
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: "a"},
+			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "start", WCNext: "end"},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "a", WCNext: ""},
+		},
+	}
+
+	wcharacter := WCharacter{ID: "b", Visible: true, Alphabet: "b", WCPrevious: "a", WCNext: "end"}
+
+	expectedWString := &WString{
+		Sequence: []WCharacter{
+			WCharacter{ID: "start", Visible: false, Alphabet: "", WCPrevious: "", WCNext: "a"},
+			WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "start", WCNext: "b"},
+			WCharacter{ID: "b", Visible: true, Alphabet: "b", WCPrevious: "a", WCNext: "end"},
+			WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "b", WCNext: ""},
+		},
+	}
+
+	actualWString, actualErr := wstring.LocalInsert(wcharacter, 2)
+
+	assert.Equal(t, expectedWString, actualWString)
+	assert.Nil(t, actualErr)
+
+	wstring = Clear()
+}
+
 func Test_LocalInsert_PositionOutOfBounds(t *testing.T) {
 	wstring = Initialize()
 
@@ -404,7 +460,7 @@ func Test_IthVisible_NoVisibleWCharacters(t *testing.T) {
 		},
 	}
 
-	expectedWCharacter := WCharacter{}
+	expectedWCharacter := WCharacter{ID: "-1", Visible: false, Alphabet: "", WCPrevious: "", WCNext: ""}
 	actualWCharacter := IthVisible(wstring, 2)
 
 	assert.Equal(t, expectedWCharacter, actualWCharacter)

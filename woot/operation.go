@@ -32,8 +32,16 @@ func (operation *Operation) IsExecutable(wstring WString) bool {
 func (wstring *WString) GenerateInsert(position int, alphabet string) (*WString, error) {
 	LocalClock++
 
-	WCharacterPrevious := IthVisible(*wstring, position)
-	WCharacterNext := IthVisible(*wstring, position+1)
+	WCharacterPrevious := IthVisible(*wstring, position-1)
+	WCharacterNext := IthVisible(*wstring, position)
+
+	if WCharacterPrevious.ID == "-1" {
+		WCharacterPrevious = wstring.Find("start")
+	}
+
+	if WCharacterNext.ID == "-1" {
+		WCharacterNext = wstring.Find("end")
+	}
 
 	wcharacter := WCharacter{
 		ID:         fmt.Sprint(SiteID) + fmt.Sprint(LocalClock),

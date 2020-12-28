@@ -1,6 +1,8 @@
 package woot
 
-import "errors"
+import (
+	"errors"
+)
 
 // WString ...
 type WString struct {
@@ -64,7 +66,6 @@ func (wstring *WString) Position(wcharacterID string) (int, error) {
 	}
 
 	return -1, nil
-
 }
 
 // LocalInsert ...
@@ -80,9 +81,6 @@ func (wstring *WString) LocalInsert(wcharacter WCharacter, position int) (*WStri
 	wstring.Sequence = append(wstring.Sequence[:position],
 		append([]WCharacter{wcharacter}, wstring.Sequence[position:]...)...,
 	)
-
-	wstring.Sequence[position].WCPrevious = wstring.Sequence[position-1].ID
-	wstring.Sequence[position].WCNext = wstring.Sequence[position+1].ID
 
 	wstring.Sequence[position-1].WCNext = wcharacter.ID
 	wstring.Sequence[position+1].WCPrevious = wcharacter.ID
@@ -140,5 +138,15 @@ func IthVisible(wstring WString, position int) WCharacter {
 		}
 	}
 
-	return WCharacter{}
+	return WCharacter{ID: "-1"}
+}
+
+// Find ...
+func (wstring *WString) Find(ID string) WCharacter {
+	for _, wcharacter := range wstring.Sequence {
+		if wcharacter.ID == ID {
+			return wcharacter
+		}
+	}
+	return WCharacter{ID: "-1"}
 }
