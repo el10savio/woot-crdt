@@ -14,7 +14,6 @@ var (
 	LocalClock = 0
 )
 
-// TODO: Unit Tests
 // TODO: Bubble up errors
 
 // IsExecutable ...
@@ -65,7 +64,7 @@ func (wstring *WString) GenerateDelete(position int) *WString {
 
 // IntegrateDelete ...
 func (wstring *WString) IntegrateDelete(wcharacter WCharacter) *WString {
-	position, _ := wstring.Position(wcharacter.ID)
+	position := wstring.Position(wcharacter.ID)
 
 	if position == -1 {
 		return wstring
@@ -81,7 +80,7 @@ func (wstring *WString) IntegrateInsert(wcharacter, WCharacterPrevious, WCharact
 	var err error
 
 	subsequence, _ := wstring.Subseq(WCharacterPrevious, WCharacterNext)
-	position, _ := wstring.Position(WCharacterNext.ID)
+	position := wstring.Position(WCharacterNext.ID)
 
 	position--
 

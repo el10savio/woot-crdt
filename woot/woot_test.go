@@ -84,10 +84,9 @@ func Test_Postion(t *testing.T) {
 	wstring = Initialize()
 
 	expectedPosition := 2
-	actualPosition, actualErr := wstring.Position("end")
+	actualPosition := wstring.Position("end")
 
 	assert.Equal(t, expectedPosition, actualPosition)
-	assert.Nil(t, actualErr)
 
 	wstring = Clear()
 }
@@ -96,10 +95,9 @@ func Test_Postion_EmptyWString(t *testing.T) {
 	wstring = WString{Sequence: []WCharacter{}}
 
 	expectedPosition := -1
-	actualPosition, actualErr := wstring.Position("end")
+	actualPosition := wstring.Position("end")
 
 	assert.Equal(t, expectedPosition, actualPosition)
-	assert.Nil(t, actualErr)
 
 	wstring = Clear()
 }
@@ -108,12 +106,10 @@ func Test_Postion_EmptyWCharacterID(t *testing.T) {
 	wstring = Initialize()
 
 	expectedPosition := -1
-	expectedErr := ErrEmptyWCharacter
 
-	actualPosition, actualErr := wstring.Position("")
+	actualPosition := wstring.Position("")
 
 	assert.Equal(t, expectedPosition, actualPosition)
-	assert.Equal(t, expectedErr, actualErr)
 
 	wstring = Clear()
 }
@@ -122,10 +118,9 @@ func Test_Postion_WCharacterNotPresent(t *testing.T) {
 	wstring = Initialize()
 
 	expectedPosition := -1
-	actualPosition, actualErr := wstring.Position("not_present")
+	actualPosition := wstring.Position("not_present")
 
 	assert.Equal(t, expectedPosition, actualPosition)
-	assert.Nil(t, actualErr)
 
 	wstring = Clear()
 }

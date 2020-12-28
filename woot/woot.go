@@ -54,18 +54,13 @@ func (wstring *WString) ElementAt(position int) (WCharacter, error) {
 
 // Position ...
 // Returns wstring natural number
-func (wstring *WString) Position(wcharacterID string) (int, error) {
-	if wcharacterID == "" {
-		return -1, ErrEmptyWCharacter
-	}
-
+func (wstring *WString) Position(wcharacterID string) int {
 	for position, _wcharacter := range wstring.Sequence {
 		if wcharacterID == _wcharacter.ID {
-			return position + 1, nil
+			return position + 1
 		}
 	}
-
-	return -1, nil
+	return -1
 }
 
 // LocalInsert ...
@@ -91,8 +86,8 @@ func (wstring *WString) LocalInsert(wcharacter WCharacter, position int) (*WStri
 // Subseq ...
 // Excluding wcharacterStart & wcharacterEnd
 func (wstring *WString) Subseq(wcharacterStart, wcharacterEnd WCharacter) ([]WCharacter, error) {
-	startPosition, _ := wstring.Position(wcharacterStart.ID)
-	endPosition, _ := wstring.Position(wcharacterEnd.ID)
+	startPosition := wstring.Position(wcharacterStart.ID)
+	endPosition := wstring.Position(wcharacterEnd.ID)
 
 	if startPosition == -1 || endPosition == -1 {
 		return wstring.Sequence, ErrBoundsNotPresent
@@ -108,7 +103,7 @@ func (wstring *WString) Subseq(wcharacterStart, wcharacterEnd WCharacter) ([]WCh
 
 // Contains ...
 func (wstring *WString) Contains(wcharacterID string) bool {
-	position, _ := wstring.Position(wcharacterID)
+	position := wstring.Position(wcharacterID)
 	return position != -1
 }
 
