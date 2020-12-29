@@ -97,7 +97,6 @@ for peer_index in "${!peers[@]}"; do
         echo "${peer_id_list[*]}"
     )
     
-    echo $comma_separated_peer_id_list
     docker run -p "${peers[$peer_index]}":8080 --net $network -e "PEERS="$comma_separated_peer_id_list"" -e "NETWORK="$network"" --name="peer-$peer_index" -d woot
 done
 

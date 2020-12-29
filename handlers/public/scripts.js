@@ -61,5 +61,5 @@ function sync() {
         type: "GET",
         async: false
     }).complete(function(){}).responseText;
-    $('#text_box_sync').html(data.replace(/\"/g, ""));
+    $('#text_box').text(data.replace(/\"/g, ""));
 }
