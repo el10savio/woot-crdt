@@ -1,9 +1,5 @@
 package woot
 
-import (
-	"errors"
-)
-
 // WString ...
 type WString struct {
 	Sequence []WCharacter // Ordered sequence of WCharacters
@@ -24,12 +20,6 @@ var (
 
 	// WCharacterEnd ...
 	WCharacterEnd = WCharacter{ID: "end", Visible: false, Alphabet: "", WCPrevious: "start", WCNext: ""}
-
-	// TODO: Move errors to its own file
-
-	ErrPositionOutOfBounds = errors.New("position out of bounds")
-	ErrEmptyWCharacter     = errors.New("empty wcharacter ID provided")
-	ErrBoundsNotPresent    = errors.New("subsequence bound(s) not present")
 )
 
 // Pool is a local var slice of type []Operation{}
