@@ -29,20 +29,19 @@ $ make info
 This provides information on the cluster and its associated ports to access each node. An example of the output seen in `make info` would be like below:
 
 ```
-217351079e75   woot      "/go/bin/woot"   2 hours ago   Up 2 hours   0.0.0.0:8005->8080/tcp   peer-2
-d3fd26dd4df3   woot      "/go/bin/woot"   2 hours ago   Up 2 hours   0.0.0.0:8004->8080/tcp   peer-1
-8830feb6cd68   woot      "/go/bin/woot"   2 hours ago   Up 2 hours   0.0.0.0:8003->8080/tcp   peer-0
+217351079e75  woot  "/go/bin/woot"  2 hours ago  Up 2 hours  0.0.0.0:8005->8080/tcp  peer-2
+d3fd26dd4df3  woot  "/go/bin/woot"  2 hours ago  Up 2 hours  0.0.0.0:8004->8080/tcp  peer-1
+8830feb6cd68  woot  "/go/bin/woot"  2 hours ago  Up 2 hours  0.0.0.0:8003->8080/tcp  peer-0
 ```
 
-This provisions 3 nodes that are independent of each other but connected over a docker network to talk to each other and get in sync.
 
-We can now open a browser window for each port in localhost (in the above case localhost:8003, localhost:8004, localhost:8005).This now opens up 3 text input pages, when we add text in here they automatically get synced across all other nodes.
+We can now open a browser window for each port in localhost (in the above case `localhost:8003`, `localhost:8004`, `localhost:8005`). This now opens up 3 text input web pages, when we add text in here they automatically get synced across all other nodes.
 
 Now we can also send requests to add, list, and delete values to any peer node using its port allocated.
 
 ```
 $ curl -i -X POST localhost:<peer-port>/woot/add -d {"value": <value>, "position": <position>}
-$ curl -i -X POST localhost:<peer-port>/woot/remove  -d {"position": <position>}
+$ curl -i -X POST localhost:<peer-port>/woot/remove -d {"position": <position>}
 $ curl -i -X GET localhost:<peer-port>/woot/list
 ```
 
