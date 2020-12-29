@@ -8,16 +8,16 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// deleteBody ...
-type deleteBody struct {
+// syncDeleteBody ...
+type syncDeleteBody struct {
 	Position int `json:"position"`
 }
 
-// Delete is the HTTP handler used to delete
+// SyncDelete is the HTTP handler used to sync delete
 // values in the WString node in the server
-func Delete(w http.ResponseWriter, r *http.Request) {
+func SyncDelete(w http.ResponseWriter, r *http.Request) {
 	var err error
-	var requestBody deleteBody
+	var requestBody syncDeleteBody
 	var WStringPointer *woot.WString
 
 	// Obtain the value & position from POST Request Body
@@ -29,10 +29,10 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Delete the given value in our stored WString
+	// SyncDelete the given value in our stored WString
 	WStringPointer = WString.GenerateDelete(requestBody.Position)
 	if err != nil {
-		log.WithFields(log.Fields{"error": err}).Error("failed to delete value")
+		log.WithFields(log.Fields{"error": err}).Error("failed to delete sync value")
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -46,9 +46,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	log.WithFields(log.Fields{
 		"text":     woot.Value(WString),
 		"position": requestBody.Position,
-	}).Debug("successful wstring deletion")
-
-	// TODO: Broadcast Delete
+	}).Debug("successful wstring sync deletion")
 
 	// Return HTTP 200 OK in the case of success
 	w.WriteHeader(http.StatusOK)

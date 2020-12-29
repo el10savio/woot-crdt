@@ -8,16 +8,17 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// deleteBody ...
-type deleteBody struct {
-	Position int `json:"position"`
+// syncAddBody ...
+type syncAddBody struct {
+	Value    string `json:"value"`
+	Position int    `json:"position"`
 }
 
-// Delete is the HTTP handler used to delete
-// values in the WString node in the server
-func Delete(w http.ResponseWriter, r *http.Request) {
+// SyncAdd is the HTTP handler used to sync added
+// values to the WString node in the server
+func SyncAdd(w http.ResponseWriter, r *http.Request) {
 	var err error
-	var requestBody deleteBody
+	var requestBody syncAddBody
 	var WStringPointer *woot.WString
 
 	// Obtain the value & position from POST Request Body
@@ -29,10 +30,10 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Delete the given value in our stored WString
-	WStringPointer = WString.GenerateDelete(requestBody.Position)
+	// SyncAdd the given value to our stored WString
+	WStringPointer, err = WString.GenerateInsert(requestBody.Position, requestBody.Value)
 	if err != nil {
-		log.WithFields(log.Fields{"error": err}).Error("failed to delete value")
+		log.WithFields(log.Fields{"error": err}).Error("failed to add sync value")
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -45,10 +46,9 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	// the new WString and the value added
 	log.WithFields(log.Fields{
 		"text":     woot.Value(WString),
+		"value":    requestBody.Value,
 		"position": requestBody.Position,
-	}).Debug("successful wstring deletion")
-
-	// TODO: Broadcast Delete
+	}).Debug("successful wstring sync addition")
 
 	// Return HTTP 200 OK in the case of success
 	w.WriteHeader(http.StatusOK)

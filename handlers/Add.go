@@ -50,6 +50,8 @@ func Add(w http.ResponseWriter, r *http.Request) {
 		"position": requestBody.Position,
 	}).Debug("successful wstring addition")
 
+	// TODO: Broadcast Add
+
 	// Return HTTP 200 OK in the case of success
 	w.WriteHeader(http.StatusOK)
 }
