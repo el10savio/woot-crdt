@@ -30,13 +30,6 @@ func Add(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// DEBUG log in the case of success indicating
-	// the parsed JSON body
-	log.WithFields(log.Fields{
-		"value":    requestBody.Value,
-		"position": requestBody.Position,
-	}).Debug("successful request body parse")
-
 	// Add the given value to our stored WString
 	WStringPointer, err = WString.GenerateInsert(requestBody.Position, requestBody.Value)
 	if err != nil {

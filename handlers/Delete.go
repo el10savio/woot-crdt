@@ -29,12 +29,6 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// DEBUG log in the case of success indicating
-	// the parsed JSON body
-	log.WithFields(log.Fields{
-		"position": requestBody.Position,
-	}).Debug("successful request body parse")
-
 	// Delete the given value in our stored WString
 	WStringPointer = WString.GenerateDelete(requestBody.Position)
 	if err != nil {
