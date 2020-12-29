@@ -50,7 +50,11 @@ func Add(w http.ResponseWriter, r *http.Request) {
 		"position": requestBody.Position,
 	}).Debug("successful wstring addition")
 
-	// TODO: Broadcast Add
+	// Broadcast Add
+	err = BroadcastAdd(requestBody.Position, requestBody.Value)
+	if err != nil {
+		log.WithFields(log.Fields{"error": err}).Error("failed to sync add value")
+	}
 
 	// Return HTTP 200 OK in the case of success
 	w.WriteHeader(http.StatusOK)

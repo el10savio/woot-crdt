@@ -48,7 +48,11 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 		"position": requestBody.Position,
 	}).Debug("successful wstring deletion")
 
-	// TODO: Broadcast Delete
+	// Broadcast Delete
+	err = BroadcastDelete(requestBody.Position)
+	if err != nil {
+		log.WithFields(log.Fields{"error": err}).Error("failed to sync delete value")
+	}
 
 	// Return HTTP 200 OK in the case of success
 	w.WriteHeader(http.StatusOK)

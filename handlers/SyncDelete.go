@@ -8,16 +8,11 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// syncDeleteBody ...
-type syncDeleteBody struct {
-	Position int `json:"position"`
-}
-
 // SyncDelete is the HTTP handler used to sync delete
 // values in the WString node in the server
 func SyncDelete(w http.ResponseWriter, r *http.Request) {
 	var err error
-	var requestBody syncDeleteBody
+	var requestBody deleteBody
 	var WStringPointer *woot.WString
 
 	// Obtain the value & position from POST Request Body

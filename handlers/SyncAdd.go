@@ -8,17 +8,11 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// syncAddBody ...
-type syncAddBody struct {
-	Value    string `json:"value"`
-	Position int    `json:"position"`
-}
-
 // SyncAdd is the HTTP handler used to sync added
 // values to the WString node in the server
 func SyncAdd(w http.ResponseWriter, r *http.Request) {
 	var err error
-	var requestBody syncAddBody
+	var requestBody addBody
 	var WStringPointer *woot.WString
 
 	// Obtain the value & position from POST Request Body
