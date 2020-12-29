@@ -1,5 +1,9 @@
 console.log("woot crdt")
 
+$(document).ready(function(){
+    setInterval(function(){ sync(); }, 3000);
+});
+
 // Character Deleted
 $('#text_box').on('keydown', function (event) {
     // If Backspace/Delete
@@ -49,3 +53,13 @@ $('#text_box').on('keypress', function (event) {
         contentType: 'application/json; charset=utf-8',
     });
 });
+
+// Sync
+function sync() {
+    var data = $.ajax({
+        url: "/woot/list",
+        type: "GET",
+        async: false
+    }).complete(function(){}).responseText;
+    $('#text_box_sync').html(data.replace(/\"/g, ""));
+}
