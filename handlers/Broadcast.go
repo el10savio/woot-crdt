@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -52,7 +53,16 @@ func SendAddRequest(peer string, postBody addBody) error {
 	json, _ := json.Marshal(postBody)
 	encodedBody := bytes.NewReader(json)
 
-	_, err := http.NewRequest("POST", url, encodedBody)
+	request, err := http.NewRequest("POST", url, encodedBody)
+	if err != nil {
+		return err
+	}
+
+	client := http.Client{
+		Timeout: time.Duration(5 * 60 * time.Second),
+	}
+
+	_, err = client.Do(request)
 	if err != nil {
 		return err
 	}
@@ -101,10 +111,21 @@ func SendDeleteRequest(peer string, postBody deleteBody) error {
 	json, _ := json.Marshal(postBody)
 	encodedBody := bytes.NewReader(json)
 
-	_, err := http.NewRequest("POST", url, encodedBody)
+	request, err := http.NewRequest("POST", url, encodedBody)
 	if err != nil {
 		return err
 	}
+
+	client := http.Client{
+		Timeout: time.Duration(5 * 60 * time.Second),
+	}
+
+	response, err := client.Do(request)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(response)
 
 	return nil
 }

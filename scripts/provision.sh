@@ -4,7 +4,6 @@
 # A list of all the ports
 # of the woot peers
 declare -a peers=()
-declare -a peer_id_list=()
 
 # Name of the WOOT cluster network
 # connecting the peers
@@ -83,16 +82,22 @@ fi
 echo "Building WOOT Cluster Network"
 docker network create "$network"
 
-for ((id = 0; id < $peers_count; ++id)); do
-    peer_id_list+=(peer-$id)
-done
-
-comma_separated_peer_id_list=$(
-    IFS=,
-    echo "${peer_id_list[*]}"
-)
 
 for peer_index in "${!peers[@]}"; do
+    declare -a peer_id_list=()
+
+    for ((id = 0; id < $peers_count; ++id)); do
+        if [[ id -ne peer_index ]]; then
+            peer_id_list+=(peer-$id)
+        fi
+    done
+    
+    comma_separated_peer_id_list=$(
+        IFS=,
+        echo "${peer_id_list[*]}"
+    )
+    
+    echo $comma_separated_peer_id_list
     docker run -p "${peers[$peer_index]}":8080 --net $network -e "PEERS="$comma_separated_peer_id_list"" -e "NETWORK="$network"" --name="peer-$peer_index" -d woot
 done
 
