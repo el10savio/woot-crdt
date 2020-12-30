@@ -7,17 +7,26 @@ import (
 )
 
 var (
+	// wstring is the local WString
+	// variable stored for tests
 	wstring WString
 )
 
 func init() {
+	// Initialize the
+	// wstring variable
 	wstring = Initialize()
 }
 
+// Clear is a utility function used
+// to reset the wstring variable
+// at the end of tests
 func Clear() WString {
 	return Initialize()
 }
 
+// Test_Length tests the basic functionality
+// of the wstring Length() function
 func Test_Length(t *testing.T) {
 	wstring = Initialize()
 
@@ -29,6 +38,9 @@ func Test_Length(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Length_Empty tests the basic functionality
+// of the wstring Length() function
+// when the wstring is empty
 func Test_Length_Empty(t *testing.T) {
 	wstring = WString{}
 
@@ -40,6 +52,8 @@ func Test_Length_Empty(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_ElementAt tests the basic functionality
+// of the wstring ElementAt() function
 func Test_ElementAt(t *testing.T) {
 	wstring = Initialize()
 
@@ -52,6 +66,9 @@ func Test_ElementAt(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_ElementAt_EmptyWString tests the basic functionality
+// of the wstring ElementAt() function
+// when the wstring is empty
 func Test_ElementAt_EmptyWString(t *testing.T) {
 	wstring = WString{Sequence: []WCharacter{}}
 
@@ -66,6 +83,9 @@ func Test_ElementAt_EmptyWString(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_ElementAt_PositionOutOfBounds tests the basic functionality
+// of the wstring ElementAt() function when the position
+// is out of bounds of the wstring sequence
 func Test_ElementAt_PositionOutOfBounds(t *testing.T) {
 	wstring = Initialize()
 
@@ -80,6 +100,8 @@ func Test_ElementAt_PositionOutOfBounds(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Postion tests the basic functionality
+// of the wstring Positihon() function
 func Test_Postion(t *testing.T) {
 	wstring = Initialize()
 
@@ -91,6 +113,9 @@ func Test_Postion(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Postion_EmptyWString tests the basic functionality
+// of the wstring Position() function
+// when the wstring is empty
 func Test_Postion_EmptyWString(t *testing.T) {
 	wstring = WString{Sequence: []WCharacter{}}
 
@@ -102,6 +127,9 @@ func Test_Postion_EmptyWString(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Postion_EmptyWCharacterID tests the basic functionality
+// of the wstring Position() function
+// when the WCharacter ID is empty
 func Test_Postion_EmptyWCharacterID(t *testing.T) {
 	wstring = Initialize()
 
@@ -114,6 +142,9 @@ func Test_Postion_EmptyWCharacterID(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Postion_EmptyWCharacterID tests the basic functionality
+// of the wstring Position() function
+// when the WCharacter is not present
 func Test_Postion_WCharacterNotPresent(t *testing.T) {
 	wstring = Initialize()
 
@@ -125,6 +156,8 @@ func Test_Postion_WCharacterNotPresent(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_LocalInsert tests the basic functionality
+// of the wstring LocalInsert() function
 func Test_LocalInsert(t *testing.T) {
 	wstring = Initialize()
 
@@ -145,6 +178,9 @@ func Test_LocalInsert(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_LocalInsert_Begining tests the basic functionality
+// of the wstring LocalInsert() function when inserting
+// to the begining of the wstring sequence
 func Test_LocalInsert_Begining(t *testing.T) {
 	wstring = Initialize()
 
@@ -161,6 +197,9 @@ func Test_LocalInsert_Begining(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_LocalInsert_Ending tests the basic functionality
+// of the wstring LocalInsert() function when inserting
+// to the ending of the wstring sequence
 func Test_LocalInsert_Ending(t *testing.T) {
 	wstring = Initialize()
 
@@ -177,6 +216,9 @@ func Test_LocalInsert_Ending(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_LocalInsert_ReplaceBegining tests the basic functionality
+// of the wstring LocalInsert() function when replacing
+// the begining of the wstring sequence
 func Test_LocalInsert_ReplaceBegining(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -205,6 +247,9 @@ func Test_LocalInsert_ReplaceBegining(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_LocalInsert_ReplaceEnding tests the basic functionality
+// of the wstring LocalInsert() function when replacing
+// the ending of the wstring sequence
 func Test_LocalInsert_ReplaceEnding(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -233,6 +278,9 @@ func Test_LocalInsert_ReplaceEnding(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_LocalInsert_PositionOutOfBounds tests the basic functionality
+// of the wstring LocalInsert() function when the position
+// is out of bounds of the wstring sequence
 func Test_LocalInsert_PositionOutOfBounds(t *testing.T) {
 	wstring = Initialize()
 
@@ -249,6 +297,8 @@ func Test_LocalInsert_PositionOutOfBounds(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_LocalInsert_EmptyWCharacter tests the basic functionality
+// of the wstring LocalInsert() function when the WCharacter is empty
 func Test_LocalInsert_EmptyWCharacter(t *testing.T) {
 	wstring = Initialize()
 
@@ -264,6 +314,8 @@ func Test_LocalInsert_EmptyWCharacter(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Subseq tests the basic functionality
+// of the wstring Subseq() function
 func Test_Subseq(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -289,6 +341,9 @@ func Test_Subseq(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Subseq_WCharacterNotPresent tests the basic functionality
+// of the wstring Subseq() function when the WCharacter
+// bounds are not present in the wstring sequence
 func Test_Subseq_WCharacterNotPresent(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -320,6 +375,9 @@ func Test_Subseq_WCharacterNotPresent(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Subseq_SameWCharacterRange tests the basic functionality
+// of the wstring Subseq() function when the WCharacter bounds are
+// not presentpoint to the same WCharacter in the wstring sequence
 func Test_Subseq_SameWCharacterRange(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -343,6 +401,8 @@ func Test_Subseq_SameWCharacterRange(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Contains tests the basic functionality
+// of the wstring Contains() function
 func Test_Contains(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -362,6 +422,9 @@ func Test_Contains(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Contains_WCharacterNotPresent tests the basic functionality
+// of the wstring Contains() function when the WCharacter
+// is not present in the wstring
 func Test_Contains_WCharacterNotPresent(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -381,6 +444,8 @@ func Test_Contains_WCharacterNotPresent(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Contains_EmptyWString tests the basic functionality
+// of the wstring Contains() function when the WCharacter is empty
 func Test_Contains_EmptyWString(t *testing.T) {
 	wstring = WString{}
 
@@ -394,6 +459,8 @@ func Test_Contains_EmptyWString(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Value tests the basic functionality
+// of the Value() function
 func Test_Value(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -411,6 +478,9 @@ func Test_Value(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_Value_NoVisibleWCharacters tests the basic functionality
+// of the Value() function when no visible WCharacters
+// are present in the wstring
 func Test_Value_NoVisibleWCharacters(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -429,6 +499,7 @@ func Test_Value_NoVisibleWCharacters(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_IthVisible tests the basic functionality of the IthVisible() function
 func Test_IthVisible(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -446,6 +517,9 @@ func Test_IthVisible(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_IthVisible_NoVisibleWCharacters tests the basic functionality
+// of the IthVisible() function when no visible WCharacters
+// are present in the wstring
 func Test_IthVisible_NoVisibleWCharacters(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
