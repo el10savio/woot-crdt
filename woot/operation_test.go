@@ -6,6 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// Test_IntegrateInsert tests the basic functionality
+// of the IntegrateInsert function
 func Test_IntegrateInsert(t *testing.T) {
 	wstring = Initialize()
 
@@ -27,6 +29,9 @@ func Test_IntegrateInsert(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_IntegrateInsert_Middle tests the basic functionality
+// of the IntegrateInsert function when inserting
+// into the middle of the WString Sequence
 func Test_IntegrateInsert_Middle(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -61,6 +66,10 @@ func Test_IntegrateInsert_Middle(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_IntegrateInsert_Transpose tests the basic functionality
+// of the IntegrateInsert function when inserting into
+// the WString Sequence when a WCharacter is
+// already present in the given position
 func Test_IntegrateInsert_Transpose(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -95,6 +104,8 @@ func Test_IntegrateInsert_Transpose(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_IntegrateDelete tests the basic functionality
+// of the IntegrateDelete function
 func Test_IntegrateDelete(t *testing.T) {
 	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: WCharacterStart.ID, WCNext: WCharacterEnd.ID}
 
@@ -121,6 +132,9 @@ func Test_IntegrateDelete(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_IntegrateDelete_WCharacterNotPresent tests the basic functionality
+// of the IntegrateDelete function when the
+// WCharacter to be deleted is not present
 func Test_IntegrateDelete_WCharacterNotPresent(t *testing.T) {
 	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: WCharacterStart.ID, WCNext: WCharacterEnd.ID}
 
@@ -145,6 +159,8 @@ func Test_IntegrateDelete_WCharacterNotPresent(t *testing.T) {
 	wstring = Clear()
 }
 
+// Test_GenerateInsert tests the basic functionality
+// of the GenerateInsert function
 func Test_GenerateInsert(t *testing.T) {
 	wstring = Initialize()
 	LocalClock = 0
@@ -168,6 +184,9 @@ func Test_GenerateInsert(t *testing.T) {
 	LocalClock = 0
 }
 
+// Test_GenerateInsert_ReplaceStart tests the basic functionality
+// of the GenerateInsert function when replacing the
+// WCharacter in the start of thw WString Sequence
 func Test_GenerateInsert_ReplaceStart(t *testing.T) {
 	wstring = Initialize()
 	LocalClock = 0
@@ -196,6 +215,9 @@ func Test_GenerateInsert_ReplaceStart(t *testing.T) {
 	LocalClock = 0
 }
 
+// Test_GenerateInsert_ReplaceEnd tests the basic functionality
+// of the GenerateInsert function when replacing the
+// WCharacter in the end of thw WString Sequence
 func Test_GenerateInsert_ReplaceEnd(t *testing.T) {
 	wstring = Initialize()
 	LocalClock = 0
@@ -223,6 +245,8 @@ func Test_GenerateInsert_ReplaceEnd(t *testing.T) {
 	LocalClock = 0
 }
 
+// Test_GenerateInsert_Word tests the basic functionality
+// of the GenerateInsert function when generating a word
 func Test_GenerateInsert_Word(t *testing.T) {
 	wstring = Initialize()
 	LocalClock = 0
@@ -261,6 +285,8 @@ func Test_GenerateInsert_Word(t *testing.T) {
 	LocalClock = 0
 }
 
+// Test_GenerateInsert_Sentence tests the basic functionality
+// of the GenerateInsert function when generating a sentence
 func Test_GenerateInsert_Sentence(t *testing.T) {
 	wstring = Initialize()
 	LocalClock = 0
@@ -307,6 +333,8 @@ func Test_GenerateInsert_Sentence(t *testing.T) {
 	LocalClock = 0
 }
 
+// Test_GenerateDelete tests the basic functionality
+// of the GenerateDelete function
 func Test_GenerateDelete(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{
@@ -335,6 +363,9 @@ func Test_GenerateDelete(t *testing.T) {
 	LocalClock = 0
 }
 
+// Test_GenerateDelete tests the basic functionality
+// of the GenerateDelete function when
+// the value to be deleted is empty
 func Test_GenerateDelete_NoValue(t *testing.T) {
 	wstring = Initialize()
 	LocalClock = 0
@@ -355,6 +386,8 @@ func Test_GenerateDelete_NoValue(t *testing.T) {
 	LocalClock = 0
 }
 
+// Test_GenerateDelete_WordReplaceInPlace tests the basic functionality
+// of the GenerateDelete function when replacing a word
 func Test_GenerateDelete_WordReplaceInPlace(t *testing.T) {
 	wstring = Initialize()
 	LocalClock = 0
@@ -376,6 +409,8 @@ func Test_GenerateDelete_WordReplaceInPlace(t *testing.T) {
 	LocalClock = 0
 }
 
+// Test_GenerateDelete_SentenceReplaceInPlace tests the basic functionality
+// of the GenerateDelete function when replacing a sentence
 func Test_GenerateDelete_SentenceReplaceInPlace(t *testing.T) {
 	wstring = Initialize()
 	LocalClock = 0
