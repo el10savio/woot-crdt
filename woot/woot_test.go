@@ -100,9 +100,9 @@ func Test_ElementAt_PositionOutOfBounds(t *testing.T) {
 	wstring = Clear()
 }
 
-// Test_Postion tests the basic functionality
+// Test_Position tests the basic functionality
 // of the wstring Positihon() function
-func Test_Postion(t *testing.T) {
+func Test_Position(t *testing.T) {
 	wstring = Initialize()
 
 	expectedPosition := 2
@@ -113,10 +113,10 @@ func Test_Postion(t *testing.T) {
 	wstring = Clear()
 }
 
-// Test_Postion_EmptyWString tests the basic functionality
+// Test_Position_EmptyWString tests the basic functionality
 // of the wstring Position() function
 // when the wstring is empty
-func Test_Postion_EmptyWString(t *testing.T) {
+func Test_Position_EmptyWString(t *testing.T) {
 	wstring = WString{Sequence: []WCharacter{}}
 
 	expectedPosition := -1
@@ -127,10 +127,10 @@ func Test_Postion_EmptyWString(t *testing.T) {
 	wstring = Clear()
 }
 
-// Test_Postion_EmptyWCharacterID tests the basic functionality
+// Test_Position_EmptyWCharacterID tests the basic functionality
 // of the wstring Position() function
 // when the WCharacter ID is empty
-func Test_Postion_EmptyWCharacterID(t *testing.T) {
+func Test_Position_EmptyWCharacterID(t *testing.T) {
 	wstring = Initialize()
 
 	expectedPosition := -1
@@ -142,10 +142,10 @@ func Test_Postion_EmptyWCharacterID(t *testing.T) {
 	wstring = Clear()
 }
 
-// Test_Postion_EmptyWCharacterID tests the basic functionality
+// Test_Position_EmptyWCharacterID tests the basic functionality
 // of the wstring Position() function
 // when the WCharacter is not present
-func Test_Postion_WCharacterNotPresent(t *testing.T) {
+func Test_Position_WCharacterNotPresent(t *testing.T) {
 	wstring = Initialize()
 
 	expectedPosition := -1
@@ -178,10 +178,10 @@ func Test_LocalInsert(t *testing.T) {
 	wstring = Clear()
 }
 
-// Test_LocalInsert_Begining tests the basic functionality
+// Test_LocalInsert_Beginning tests the basic functionality
 // of the wstring LocalInsert() function when inserting
-// to the begining of the wstring sequence
-func Test_LocalInsert_Begining(t *testing.T) {
+// to the beginning of the wstring sequence
+func Test_LocalInsert_Beginning(t *testing.T) {
 	wstring = Initialize()
 
 	wcharacter := WCharacter{ID: "a", Visible: true, Alphabet: "a", WCPrevious: "", WCNext: ""}
@@ -218,7 +218,7 @@ func Test_LocalInsert_Ending(t *testing.T) {
 
 // Test_LocalInsert_ReplaceBegining tests the basic functionality
 // of the wstring LocalInsert() function when replacing
-// the begining of the wstring sequence
+// the beginning of the wstring sequence
 func Test_LocalInsert_ReplaceBegining(t *testing.T) {
 	wstring = WString{
 		Sequence: []WCharacter{

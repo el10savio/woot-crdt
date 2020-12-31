@@ -5,7 +5,7 @@ import "fmt"
 var (
 	// TODO: Convert SiteID To String & Tie To IP Address
 
-	// SiteID is the global unique vairable
+	// SiteID is the global unique variable
 	// used to identify the WOOT node site
 	SiteID = 0
 

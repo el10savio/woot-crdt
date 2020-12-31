@@ -72,7 +72,7 @@ func (wstring *WString) Position(wcharacterID string) int {
 }
 
 // LocalInsert inserts the given WCharacter into the WString Sequence at the given
-// position and shifts the remaing elements to accomodate the new WCharacter
+// position and shifts the remaining elements to accommodate the new WCharacter
 func (wstring *WString) LocalInsert(wcharacter WCharacter, position int) (*WString, error) {
 	// Guard checks for position to check if it's in the WString
 	// bounds If it is out of bounds an error is returned and
